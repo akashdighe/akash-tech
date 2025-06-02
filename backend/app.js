@@ -4,7 +4,7 @@ import cors from "cors";
 import { errorMiddleware } from "./middlewares/error.js";
 import { dbConnection } from "./database/dbConnection.js";
 import route from "./routes/route.js";
-
+import path from "path";
 const app = express();
 dotenv.config({ path: "./.env" });
 
@@ -22,6 +22,11 @@ app.use(
     methods: ["GET", "POST", "PUT", "DELETE"],
   })
 );
+// This will resolve the full path correctly even on Windows
+const __dirname = path.resolve();
+
+// Serve the 'uploads' folder as static
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

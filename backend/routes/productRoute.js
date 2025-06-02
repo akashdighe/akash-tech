@@ -6,13 +6,15 @@ import {
   updateProduct,
   deleteProduct,
 } from "../controller/productController.js";
+import upload from "../middlewares/upload.js";
 
 const productRouter = express.Router();
 
-productRouter.post("/", createProduct);          // Create product
-productRouter.get("/", getProducts);            // Get all products
-productRouter.get("/:id", getProductById);      // Get product by ID
-productRouter.put("/:id", updateProduct);       // Update product
-productRouter.delete("/:id", deleteProduct);    // Delete product
+
+productRouter.post("/", upload.single("image"), createProduct);
+productRouter.get("/", getProducts);
+productRouter.get("/:id", getProductById);
+productRouter.put("/:id", upload.single("image"), updateProduct);
+productRouter.delete("/:id", deleteProduct);
 
 export default productRouter;

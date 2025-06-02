@@ -1,6 +1,5 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import User from "../models/userModal.js";
 import AuthUser from "../models/userModal.js";
 
 const JWT_SECRET = process.env.JWT_SECRET || "Akash_Tech"; // Use env variable in production

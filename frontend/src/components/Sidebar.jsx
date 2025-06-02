@@ -54,7 +54,8 @@ const SidebarItem = ({ item, isActive }) => (
 
 export const Sidebar = ({ open, onClose, permissions }) => {
   const location = useLocation();
-
+  console.log(JSON.stringify(permissions));
+  
   const hasReadPermission = (key) =>
     permissions?.some((p) => p.module === key && p.read);
 

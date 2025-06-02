@@ -8,6 +8,7 @@ import { AuthContext } from "../../context/AuthContext";
 export default function DashboardLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const { auth } = useContext(AuthContext);
+
   const permissionsUser = auth?.user?.role?.permissions;
 
   return (

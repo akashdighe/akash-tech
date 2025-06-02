@@ -3,18 +3,27 @@ import instance from "./axiosInstance";
 
 const API_URL = "/api/enterprise";
 
-// Get all enterprises
-export const getEnterprises = () => instance.get(API_URL);
+export const getEnterprises = async () => {
+  const res = await instance.get(API_URL);
+  return res.data;
+};
 
-// Get enterprise by ID
-export const getEnterpriseById = (id) => instance.get(`${API_URL}/${id}`);
+export const getEnterpriseById = async (id) => {
+  const res = await instance.get(`${API_URL}/${id}`);
+  return res.data;
+};
 
-// Create enterprise
-export const createEnterprise = (data) => instance.post(API_URL, data);
+export const createEnterprise = async (data) => {
+  const res = await instance.post(API_URL, data);
+  return res.data;
+};
 
-// Update enterprise
-export const updateEnterprise = (id, data) =>
-  instance.put(`${API_URL}/${id}`, data);
+export const updateEnterprise = async (id, data) => {
+  const res = await instance.put(`${API_URL}/${id}`, data);
+  return res.data;
+};
 
-// Delete enterprise
-export const deleteEnterprise = (id) => instance.delete(`${API_URL}/${id}`);
+export const deleteEnterprise = async (id) => {
+  const res = await axios.delete(`${API_URL}/${id}`);
+  return res.data;
+};

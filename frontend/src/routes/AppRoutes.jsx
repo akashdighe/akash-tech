@@ -10,12 +10,13 @@ import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 import Login from "../Pages/Auth/Login";
 import { Roles } from "../Pages/roles/Roles";
-import { Enterprises } from "../Pages/enterprises/Enterprises";
-import { Employees } from "../Pages/employees/Employees";
 import { Products } from "../Pages/products/Products";
 import { Users } from "../Pages/users/Users";
 import { ProductSale } from "../Pages/productSale/ProductSale";
-
+import EnterpriseForm from "../Pages/enterprises/EnterpriseForm";
+import  Employees  from "../Pages/employees/Employees";
+import Enterprises from "../Pages/enterprises/Enterprises";
+import EmployeeForm from "../Pages/employees/EmployeeForm";
 // const RoleBasedDashboard = () => {
 //   const { auth } = useContext(AuthContext);
 //   const user = auth.user;
@@ -37,11 +38,17 @@ const AppRoutes = () => (
         <Route index element={<AdminDashboard />} />
 
         <Route path="role" element={<Roles />} />
-        <Route path="enterprises" element={<Enterprises />} />
-        <Route path="employees" element={<Employees />} />
         <Route path="products" element={<Products />} />
         <Route path="user" element={<Users />} />
         <Route path="product-sale" element={<ProductSale />} />
+        {/* Enterprises */}
+        <Route path="enterprises" element={<Enterprises />} />
+        <Route path="enterprises/create" element={<EnterpriseForm />} />
+        <Route path="enterprises/edit/:id" element={<EnterpriseForm />} />
+
+        <Route path="employees" element={<Employees />} />
+        <Route path="/employees/create" element={<EmployeeForm />} />
+        <Route path="/employees/edit/:id" element={<EmployeeForm />} />
       </Route>
     </Route>
 

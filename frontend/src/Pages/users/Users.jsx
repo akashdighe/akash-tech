@@ -9,6 +9,7 @@ import {
 import UserModal from "./UserModal";
 import { getRoles } from "../../services/roleServices";
 import { getEnterprises } from "../../services/enterpriseServices";
+import { hasPermission } from "../../utils/roleUtils";
 
 export const Users = () => {
   const [users, setUsers] = useState([]);
@@ -26,7 +27,7 @@ export const Users = () => {
     const [roleRes, entRes] = await Promise.all([getRoles(), getEnterprises()]);
 
     setRoles(roleRes.data);
-    setEnterprises(entRes.data);
+    setEnterprises(entRes);
   };
 
   useEffect(() => {
@@ -69,14 +70,16 @@ export const Users = () => {
   };
 
   return (
-    <div className="p-6">
+    <div className="">
       <div className="flex justify-end items-center mb-6">
-        <button
-          onClick={openCreateModal}
-          className="bg-green-600 text-white px-4 py-2 rounded"
-        >
-          + Add User
-        </button>
+        {hasPermission("users", "create") && (
+          <button
+            onClick={openCreateModal}
+            className="bg-green-600 text-white px-4 py-2 rounded"
+          >
+            + Add User
+          </button>
+        )}
       </div>
 
       <div className="overflow-auto">
@@ -88,7 +91,10 @@ export const Users = () => {
               <th className="border p-2">PhoneNumber</th>
               <th className="border p-2">Role</th>
               <th className="border p-2">Enterprise</th>
-              <th className="border p-2">Actions</th>
+              {(hasPermission("users", "update") ||
+                hasPermission("users", "delete")) && (
+                <th className="border p-2">Actions</th>
+              )}{" "}
             </tr>
           </thead>
           <tbody>
@@ -99,26 +105,37 @@ export const Users = () => {
                 <td className="border p-2">{user.phoneNumber}</td>
                 <td className="border p-2">{user.role?.name}</td>
                 <td className="border p-2">{user.enterprise?.name || "-"}</td>
-                <td className="border p-2 space-x-2">
-                  <button
-                    onClick={() => openEditModal(user)}
-                    className="bg-yellow-500 text-white px-3 py-1 rounded"
-                  >
-                    Edit
-                  </button>
-                  <button
-                    onClick={() => handleDelete(user._id)}
-                    className="bg-red-600 text-white px-3 py-1 rounded"
-                  >
-                    Delete
-                  </button>
-                  <button
-                    onClick={() => handleReset(user._id)}
-                    className="bg-blue-600 text-white px-3 py-1 rounded"
-                  >
-                    Reset Password
-                  </button>
-                </td>
+                {(hasPermission("users", "update") ||
+                  hasPermission("users", "delete")) && (
+                  <td className="border p-2 space-x-2">
+                    {hasPermission("users", "update") && (
+                      <button
+                        onClick={() => openEditModal(user)}
+                        className="bg-yellow-500 text-white px-3 py-1 rounded"
+                      >
+                        Edit
+                      </button>
+                    )}
+
+                    {hasPermission("users", "delete") && (
+                      <button
+                        onClick={() => handleDelete(user._id)}
+                        className="bg-red-600 text-white px-3 py-1 rounded"
+                      >
+                        Delete
+                      </button>
+                    )}
+
+                    {hasPermission("users", "update") && (
+                      <button
+                        onClick={() => handleReset(user._id)}
+                        className="bg-blue-600 text-white px-3 py-1 rounded"
+                      >
+                        Reset Password
+                      </button>
+                    )}
+                  </td>
+                )}
               </tr>
             ))}
           </tbody>

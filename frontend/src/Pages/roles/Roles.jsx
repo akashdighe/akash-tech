@@ -6,6 +6,7 @@ import {
   deleteRole,
 } from "../../services/roleServices"; // your API services here
 import RoleModal from "./RoleModal";
+import { hasPermission } from "../../utils/roleUtils";
 
 export const Roles = () => {
   const [roles, setRoles] = useState([]);
@@ -22,7 +23,7 @@ export const Roles = () => {
     try {
       setLoading(true);
       const res = await getRoles();
-      setRoles(res.data);
+      setRoles(Array.isArray(res.data) ? res.data : []);
     } catch (error) {
       alert("Failed to fetch roles");
     } finally {
@@ -67,14 +68,15 @@ export const Roles = () => {
 
   return (
     <div className="p-6 bg-white rounded shadow max-w-7xl mx-auto">
-      <div className="flex justify-between items-center mb-8">
-        <h1 className="text-3xl font-bold">Role Management</h1>
-        <button
-          onClick={openCreateModal}
-          className="bg-green-600 hover:bg-green-700 transition text-white px-5 py-2 rounded"
-        >
-          + Add Role
-        </button>
+      <div className="flex justify-end items-center mb-5">
+        {hasPermission("roles", "create") && (
+          <button
+            onClick={openCreateModal}
+            className="bg-green-600 hover:bg-green-700 transition text-white px-5 py-2 rounded"
+          >
+            + Add Role
+          </button>
+        )}
       </div>
 
       {loading ? (
@@ -85,7 +87,10 @@ export const Roles = () => {
             <tr>
               <th className="border p-3 text-left">Role Name</th>
               <th className="border p-3 text-left">Permissions</th>
-              <th className="border p-3 text-left">Actions</th>
+              {(hasPermission("roles", "update") ||
+                hasPermission("roles", "delete")) && (
+                <th className="border p-3 text-left">Actions</th>
+              )}
             </tr>
           </thead>
           <tbody>
@@ -96,6 +101,7 @@ export const Roles = () => {
                 </td>
               </tr>
             )}
+
             {roles.map((role) => (
               <tr key={role._id} className="hover:bg-gray-50">
                 <td className="border p-3 font-medium">{role.name}</td>
@@ -112,20 +118,28 @@ export const Roles = () => {
                     );
                   })}
                 </td>
+
+                {(hasPermission("roles", "update") || hasPermission("roles", "delete")) && (
                 <td className="border p-3 space-x-3">
-                  <button
-                    onClick={() => openEditModal(role)}
-                    className="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-1 rounded"
-                  >
-                    Edit
-                  </button>
-                  <button
-                    onClick={() => handleDelete(role._id)}
-                    className="bg-red-600 hover:bg-red-700 text-white px-4 py-1 rounded"
-                  >
-                    Delete
-                  </button>
+                  {hasPermission("roles", "update") && (
+                    <button
+                      onClick={() => openEditModal(role)}
+                      className="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-1 rounded"
+                    >
+                      Edit
+                    </button>
+                  )}
+
+                  {hasPermission("roles", "delete") && (
+                    <button
+                      onClick={() => handleDelete(role._id)}
+                      className="bg-red-600 hover:bg-red-700 text-white px-4 py-1 rounded"
+                    >
+                      Delete
+                    </button>
+                  )}
                 </td>
+                )}
               </tr>
             ))}
           </tbody>
