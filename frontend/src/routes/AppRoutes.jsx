@@ -14,18 +14,22 @@ import { Products } from "../Pages/products/Products";
 import { Users } from "../Pages/users/Users";
 import { ProductSale } from "../Pages/productSale/ProductSale";
 import EnterpriseForm from "../Pages/enterprises/EnterpriseForm";
-import  Employees  from "../Pages/employees/Employees";
+import Employees from "../Pages/employees/Employees";
 import Enterprises from "../Pages/enterprises/Enterprises";
 import EmployeeForm from "../Pages/employees/EmployeeForm";
-// const RoleBasedDashboard = () => {
-//   const { auth } = useContext(AuthContext);
-//   const user = auth.user;
+import { UserDashboard } from "../Pages/Dashboard/UserDashboard";
 
-//   switch (user?.role?.name) {
-//     case "Admin":
-//       return <AdminDashboard />;
-//   }
-// };
+const RoleBasedDashboard = () => {
+  const { auth } = useContext(AuthContext);
+  const user = auth.user;
+
+  switch (user?.role?.name) {
+    case "Admin":
+      return <AdminDashboard />;
+    case "User":
+      return <UserDashboard />;
+  }
+};
 
 const AppRoutes = () => (
   <Routes>
@@ -35,7 +39,7 @@ const AppRoutes = () => (
 
     <Route element={<ProtectedRoute />}>
       <Route element={<DashboardLayout />}>
-        <Route index element={<AdminDashboard />} />
+        <Route index element={<RoleBasedDashboard />} />
 
         <Route path="role" element={<Roles />} />
         <Route path="products" element={<Products />} />
