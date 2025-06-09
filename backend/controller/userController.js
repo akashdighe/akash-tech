@@ -6,10 +6,10 @@ import Enterprise from "../models/enterpriseModal.js";
 // Create User
 export const createUser = async (req, res) => {
   try {
-    const { username, password, roleId, enterpriseId, name, phoneNumber } =
+    const { username,address, password, roleId, enterpriseId, name, phoneNumber } =
       req.body;
 
-    if (!username || !password || !roleId || !name) {
+    if (!username || !password || !address || !roleId || !name) {
       return res
         .status(400)
         .json({
@@ -38,6 +38,7 @@ export const createUser = async (req, res) => {
 
     const user = new User({
       username,
+      address,
       name,
       phoneNumber,
       passwordHash,
@@ -93,12 +94,13 @@ export const getUserById = async (req, res) => {
 // Update User
 export const updateUser = async (req, res) => {
   try {
-    const { username, roleId, enterpriseId, name, phoneNumber } = req.body;
+    const { username,address, roleId, enterpriseId, name, phoneNumber } = req.body;
 
     const updateData = {};
     if (username) updateData.username = username;
     if (name) updateData.name = name;
     if (phoneNumber) updateData.phoneNumber = phoneNumber;
+    if (address) updateData.address = address;
 
     if (roleId) {
       const role = await Role.findById(roleId);

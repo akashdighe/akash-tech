@@ -11,12 +11,12 @@ import { AuthContext } from "../context/AuthContext";
 // 1. Map routes to titles
 const routeTitles = {
   "/": "Dashboard",
-  "/role": "Role",
-  "/user": "User",
-  "/employees": "Employees",
-  "/products": "Product",
+  "/role": "Role Mangement",
+  "/user": "User Mangement",
+  "/employees": "Employees Mangement",
+  "/products": "Product Mangement",
   "/product-sale": "Product Sale",
-  "/enterprises": "Enterprises",
+  "/enterprises": "Enterprises Mangement",
 };
 
 export const Navbar = ({ onHamburgerClick }) => {

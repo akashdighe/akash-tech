@@ -1,9 +1,9 @@
-// controllers/employeeController.js
 import bcrypt from "bcrypt";
 import AuthUser from "../models/userModal.js";
 import Employee from "../models/employeeModal.js";
 
-// Create Employee (entry in both Employee and AuthUser)
+
+// CREATE
 export const createEmployee = async (req, res) => {
   try {
     const {
@@ -40,6 +40,7 @@ export const createEmployee = async (req, res) => {
     await authUser.save();
 
     const employee = new Employee({
+      username,
       name,
       phoneNumber,
       role,
@@ -53,11 +54,11 @@ export const createEmployee = async (req, res) => {
     res.status(201).json({ employee, authUser });
   } catch (err) {
     console.error("Create Employee Error:", err);
-    res.status(500).json({ message: "Server error" });
+    res.status(500).json({ message: "Server error", error: err.message });
   }
 };
 
-// Get All Employees
+// READ ALL
 export const getEmployees = async (req, res) => {
   try {
     const employees = await Employee.find()
@@ -65,66 +66,73 @@ export const getEmployees = async (req, res) => {
       .populate("enterprise");
     res.json(employees);
   } catch (err) {
-    console.error("Get Employees Error:", err);
     res.status(500).json({ message: "Server error" });
   }
 };
 
-// Get Employee by ID
+// READ BY ID
 export const getEmployeeById = async (req, res) => {
   try {
     const employee = await Employee.findById(req.params.id)
       .populate("role")
       .populate("enterprise");
-    if (!employee)
-      return res.status(404).json({ message: "Employee not found" });
+    if (!employee) return res.status(404).json({ message: "Not found" });
     res.json(employee);
   } catch (err) {
-    console.error("Get Employee By ID Error:", err);
     res.status(500).json({ message: "Server error" });
   }
 };
 
-// Update Employee
+// UPDATE
 export const updateEmployee = async (req, res) => {
   try {
-    const { name, phoneNumber, role, enterprise, department, salary, status } =
-      req.body;
+    const {
+      name,
+      username,
+      phoneNumber,
+      role,
+      enterprise,
+      department,
+      salary,
+      status,
+    } = req.body;
 
     const employee = await Employee.findByIdAndUpdate(
       req.params.id,
-      { name, phoneNumber, role, enterprise, department, salary, status },
+      {
+        name,
+        username,
+        phoneNumber,
+        role,
+        enterprise,
+        department,
+        salary,
+        status,
+      },
       { new: true }
     );
 
-    if (!employee)
-      return res.status(404).json({ message: "Employee not found" });
-
-    // Update AuthUser too
     await AuthUser.findOneAndUpdate(
-      { username: employee.username },
+      { username },
       { name, phoneNumber, role, enterprise }
     );
 
     res.json(employee);
   } catch (err) {
-    console.error("Update Employee Error:", err);
     res.status(500).json({ message: "Server error" });
   }
 };
 
-// Delete Employee
+// DELETE
 export const deleteEmployee = async (req, res) => {
   try {
     const employee = await Employee.findByIdAndDelete(req.params.id);
-    if (!employee)
-      return res.status(404).json({ message: "Employee not found" });
+    if (!employee) return res.status(404).json({ message: "Not found" });
 
     await AuthUser.findOneAndDelete({ username: employee.username });
 
-    res.json({ message: "Employee and associated user deleted" });
+    res.json({ message: "Employee deleted" });
   } catch (err) {
-    console.error("Delete Employee Error:", err);
     res.status(500).json({ message: "Server error" });
   }
 };

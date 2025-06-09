@@ -11,7 +11,7 @@ import { AuthContext } from "../context/AuthContext";
 import Login from "../Pages/Auth/Login";
 import { Roles } from "../Pages/roles/Roles";
 import { Products } from "../Pages/products/Products";
-import { Users } from "../Pages/users/Users";
+import {Users}  from "../Pages/users/Users";
 import { ProductSale } from "../Pages/productSale/ProductSale";
 import EnterpriseForm from "../Pages/enterprises/EnterpriseForm";
 import Employees from "../Pages/employees/Employees";

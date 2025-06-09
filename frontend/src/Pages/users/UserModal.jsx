@@ -16,6 +16,7 @@ const UserModal = ({
     name: "",
     phoneNumber: "",
     password: "",
+    address: "",
     roleId: "",
     enterpriseId: "",
   });
@@ -26,7 +27,8 @@ const UserModal = ({
         username: userData.username || "",
         name: userData.name || "",
         phoneNumber: userData.phoneNumber || "",
-        password: "", // Blank on edit
+        address: userData.address || "",
+        password: "", // Keep empty on edit
         roleId: userData.role?._id || "",
         enterpriseId: userData.enterprise?._id || "",
       });
@@ -36,6 +38,7 @@ const UserModal = ({
         name: "",
         phoneNumber: "",
         password: "",
+        address: "",
         roleId: "",
         enterpriseId: "",
       });
@@ -89,6 +92,15 @@ const UserModal = ({
           value={form.phoneNumber}
           onChange={handleChange}
           className="w-full p-2 border rounded"
+        />
+        <input
+          type="text"
+          name="address"
+          placeholder="Address"
+          value={form.address}
+          onChange={handleChange}
+          className="w-full p-2 border rounded"
+          required
         />
         {!userData && (
           <input

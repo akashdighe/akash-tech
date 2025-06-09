@@ -8,8 +8,12 @@ const Employees = () => {
   const navigate = useNavigate();
 
   const fetchEmployees = async () => {
-    const res = await getEmployees();
-    setEmployees(Array.isArray(res) ? res : []);
+    try {
+      const res = await getEmployees();
+      setEmployees(Array.isArray(res) ? res : []);
+    } catch (err) {
+      console.error("Error fetching employees:", err);
+    }
   };
 
   useEffect(() => {
@@ -24,7 +28,7 @@ const Employees = () => {
   };
 
   return (
-    <div className="">
+    <div className="p-4">
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-xl font-semibold">Employees</h2>
         {hasPermission("employees", "create") && (
@@ -64,9 +68,7 @@ const Employees = () => {
                   <td className="p-3 border">{emp.name}</td>
                   <td className="p-3 border">{emp.username}</td>
                   <td className="p-3 border">{emp.role?.name || "N/A"}</td>
-                  <td className="p-3 border">
-                    {emp.enterprise?.name || "N/A"}
-                  </td>
+                  <td className="p-3 border">{emp.enterprise?.name || "N/A"}</td>
                   <td className="p-3 border">{emp.department}</td>
                   <td className="p-3 border">${emp.salary}</td>
                   <td className="p-3 border">{emp.status}</td>
