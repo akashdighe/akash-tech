@@ -8,11 +8,14 @@ import {
   FaBoxOpen,
   FaChartLine,
   FaBuilding,
+  FaShoppingCart	
 } from "react-icons/fa";
 
 const navItems = [
   { name: "Dashboard", path: "/", key: "dashboard", icon: <FaTachometerAlt /> },
   { name: "Roles", path: "/role", key: "roles", icon: <FaUserShield /> },
+  { name: "Orders", path: "/orders", key: "orders", icon: <FaShoppingCart	 /> },
+
   { name: "Users", path: "/user", key: "users", icon: <FaUsers /> },
   {
     name: "Employees",

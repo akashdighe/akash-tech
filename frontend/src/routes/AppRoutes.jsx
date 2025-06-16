@@ -18,6 +18,7 @@ import Employees from "../Pages/employees/Employees";
 import Enterprises from "../Pages/enterprises/Enterprises";
 import EmployeeForm from "../Pages/employees/EmployeeForm";
 import { UserDashboard } from "../Pages/Dashboard/UserDashboard";
+import Orders from "../Pages/Orders/Orders";
 
 const RoleBasedDashboard = () => {
   const { auth } = useContext(AuthContext);
@@ -44,6 +45,7 @@ const AppRoutes = () => (
         <Route path="role" element={<Roles />} />
         <Route path="products" element={<Products />} />
         <Route path="user" element={<Users />} />
+        <Route path="orders" element={<Orders />} />
         <Route path="product-sale" element={<ProductSale />} />
         {/* Enterprises */}
         <Route path="enterprises" element={<Enterprises />} />

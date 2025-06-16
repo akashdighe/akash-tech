@@ -18,5 +18,5 @@ roleRouter.get("/", getRoles);
 roleRouter.get("/:id", getRoleById);
 roleRouter.put("/:id", updateRole);
 roleRouter.delete("/:id", deleteRole);
-
+  
 export default roleRouter;

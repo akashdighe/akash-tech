@@ -13,6 +13,7 @@ const routeTitles = {
   "/": "Dashboard",
   "/role": "Role Mangement",
   "/user": "User Mangement",
+  "/orders": "All Orders",
   "/employees": "Employees Mangement",
   "/products": "Product Mangement",
   "/product-sale": "Product Sale",
